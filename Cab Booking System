@@ -1,0 +1,100 @@
+from sqlalchemy import create_engine
+my_conn=create_engine("mysql+mysqldb://root:pervysage2004@localhost/project")
+import pandas as pd
+import webbrowser as wb
+import numpy as np
+d1={'Driver':['Mangal','Ayush','Shrey','Nakul','Darsh','Dhruv','Arnab','Praveen','Nitin','Mayank'],
+             'ID':[2314,5543,6789,2378,1234,6699,6969,1023,9872,6102],
+             'Distance Covered (KM)':[106,506,1500,23,45,77,893,123,156,223],
+             'Charge Per KM':[f"{10}".center(10),f"{9}".center(10),f"{15}".center(10),f"{13}".center(10),f"{12}".center(10),f"{22}".center(10),f"{25}".center(10),f"{20}".center(10),f"{10}".center(10),f"{11}".center(10)],
+             'Area':['Noida','Noida','Delhi','Delhi','Gurgaon','Delhi','Noida','Delhi','Noida','Gurgaon']}
+df=pd.DataFrame(d1)
+d2={'Mangal':9971822778,'Ayush':9627804321,'Shrey':9627804030,'Nakul':9255678910,'Darsh':9081762369,'Dhruv':9010225578,'Arnab':8970554422,'Praveen':9971822775,'Nitin':9976129045,'Mayank':9837188555}
+d3={'Mangal':'Swift/UP265378','Ayush':'Ertiga/UP266908','Shrey':'i10/DL1C8264','Nakul':'Scorpio/DL1C5612','Darsh':'Indica/HR261324','Dhruv':'Bolero/DL1C6689','Arnab':'i20/UP264569','Praveen':'Honda City/DL1C7472','Nitin':'Camry/UP269009','Mayank':'Santro/HR265873'}
+s1=pd.Series(d2)
+s2=pd.Series(d3)
+n=input('Enter Your Name: ')
+print(f'Welcome {n}!')
+print('Welcome To Menu,Here are the commands you can run: ')
+print('1.Cab Booking')
+print('2.DataFrame View')
+print('3.Visualization Of The Dataframe')
+print('4.Exit')
+print(f'Welcome {n}!')
+print('Welcome To Menu,Here are the commands you can run: ')
+print('1.Cab Booking')
+print('2.DataFrame View')
+print('3.Visualization Of The Dataframe')
+print('4.Exit')
+k=int(input('Choose The Command:'))
+while k!=0 and k<5:
+    if k==1:
+            print('Welcome to Uber Where Rides are Convenient for Everyone ')
+            print('type 0 if want to quit booking')
+            l=int(input('Enter Number of Booking: '))
+            for i in range(0,l,1):
+                print('Areas we operate in:','\nDelhi','\nGurgaon','\nNoida')
+                b=input('Please select your Area:')
+                d=b.capitalize()
+                print('Drivers near your location along their charges:')
+                print(df.loc[df['Area']==d,['Driver','Charge Per KM']])
+                print('Select Your Driver As Per Your Convenience By Typing their respective Number')
+                print('example','\n0 or 7')
+                c=int(input('Enter:'))
+                dr=df['Driver'][c]
+                print(f'Your Driver Is:{dr}')
+                print('Here Are The Details Of Your Driver :')
+                print(s1[dr])
+                print(s2[dr])
+                e=input('Enter Place You Want To Reach: ')
+                print('Below You will find the link to google maps pls click on it to enter the place and tell the distance to be covered')
+                link=wb.open('https://www.google.com/maps/')
+                print(link)
+                f=int(input('Enter Distance: '))
+                pr=d1['Charge Per KM'][c]
+                pr=np.array(pr)
+                pr=int(pr)
+                pr=pr*f
+                print(f'Your Price Is:{pr} ')
+                print('Thank You For Booking and Enjoy Your Trip!')
+                df['Distance Covered (KM)'][c]=df['Distance Covered (KM)'][c]+f
+            if l=='0':
+                break;
+            print('Booking Over')
+            print('Updated The Dataframe in terms of distance covered')
+            z=input('Do You Wish To see The Updated Dataframe?[Y/N]:')
+            z=z.capitalize()
+            if z=='Y':
+                print(df)
+                print()    
+            print('1.Cab Booking')
+            print('2.DataFrame View')
+            print('3.Visualization Of The Dataframe')
+            print('4.Exit')
+            k=int(input('Please Choose From The Following:'))
+    elif k==2:
+        print('The Database:')
+        print()
+        print(df)
+        print('1.Cab Booking')
+        print('2.DataFrame View')
+        print('3.Visualization Of The Dataframe')
+        print('4.Exit')
+        k=int(input('Please Choose From The Following:'))
+    elif k==3:
+        pass;
+        print('1.Cab Booking')
+        print('2.DataFrame View')
+        print('3.Visualization Of The Dataframe')
+        print('4.Exit')
+        k=int(input('Please Choose From The Following:'))
+    elif k==4:
+        print('Session Over')
+        break;    
+    elif k<1 or k>4:
+        print('1.Cab Booking')
+        print('2.DataFrame View')
+        print('3.Visualization Of The Dataframe')
+        print('4.Exit')
+        k=int(input('Please Choose From The Following:'))
+df.to_sql(con=my_conn,name='project',if_exists='replace',index=False)
